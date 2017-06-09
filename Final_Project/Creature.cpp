@@ -142,9 +142,9 @@ std::string Creature::Attack()
 	return output;
 }
 
-bool Creature::operator<(std::shared_ptr<Creature> otherMonster)
+bool Creature::operator>(Creature otherMonster)
 {
 	//Operator Overloaded ">" to determine if current monster has
 	// greater health than monster chosen to compare with
-	return (_health > otherMonster->_health);
+	return (_health > otherMonster._health);
 }

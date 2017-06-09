@@ -56,10 +56,11 @@ int main()
 					newCurrent = PickMonster(currentMonster);
 					if (newCurrent == nullptr)
 					{
-						throw "Non Existent Monster";
+						string error = "Non Existent Monster";
+						throw error;
 					}
 				}
-				catch(char* errorMessage)
+				catch(string errorMessage)
 				{
 					system("pause");
 					while (newCurrent == nullptr)
@@ -98,9 +99,32 @@ int main()
 			}
 			case 7:
 			{
-				bool CurrentHasGreaterHealth;
 				auto otherMonster = PickMonster(currentMonster);
-				CurrentHasGreaterHealth = (currentMonster > otherMonster);
+				try
+				{
+					if (otherMonster == nullptr)
+					{
+						string error = "Non Existent Monster";
+						throw error;
+					}
+				}
+				catch (string errorMessage)
+				{
+					system("pause");
+					while (otherMonster == nullptr)
+					{
+						system("cls");
+						cout << "Error has occured" << endl;
+						cout << errorMessage << endl;
+						cout << "Enter a Monster that exists" << endl;
+						system("pause");
+
+						system("cls");
+						otherMonster = PickMonster(currentMonster);
+					}
+				}
+				bool CurrentHasGreaterHealth;
+				CurrentHasGreaterHealth = *currentMonster > *otherMonster;
 				
 				cout << "Does " << currentMonster->GetName() << " have more health than " << otherMonster->GetName() << "?" << endl;
 				cout << boolalpha << CurrentHasGreaterHealth << endl;
@@ -150,13 +174,13 @@ void DisplayMenu(shared_ptr<Creature> currentMonster, shared_ptr<Creature> paren
 	cout << "Sauron's Army Logistics" << endl;
 	cout << "Now looking at " << currentMonster->GetName() << " the " << currentMonster->GetMonsterType() << endl;
 	cout << "*****************************************" << endl;
-	cout << "1) List Current Monster's Subordinates" << endl;
-	cout << "2) Add Monster as subordinate" << endl;
-	cout << "3) Go to particular Subordiate" << endl;
+	cout << "1) List Current Monster's Direct Subordinates" << endl;
+	cout << "2) Add Monster as Direct subordinate" << endl;
+	cout << "3) Go to particular Direct Subordiate" << endl;
 	cout << "4) Look at Current Monster's Stats" << endl;
 	cout << "5) Assess Power of Army Branch Under Monster" << endl;
-	cout << "6) Command Monster to Demonstrate Attack" << endl;
-	cout << "7) Pick Subordinate monster to compare health with current monster" << endl;
+	cout << "6) Command Current Monster to Demonstrate Attack" << endl;
+	cout << "7) Pick Direct Subordinate monster to compare health with current monster" << endl;
 	if (parent != nullptr) {
 		cout << "8) Return to [" << parent->GetName() << "]";
 	}
@@ -252,7 +276,7 @@ void BranchStats(shared_ptr<Creature> currentMonster)
 	int WraithCount = currentMonster->MonsterCount("Wraith");
 	int DragonCount = currentMonster->MonsterCount("Dragon");
 
-	cout << "Subordinates of each type under branch leader..." << endl;
+	cout << "Subordinates of each type under branch leader:" << endl;
 	cout << "Creatures: " << CreatureCount << endl;
 	cout << "Orcs: " << OrcCount << endl;
 	cout << "Uruk Hai: " << UrukHaiCount << endl;

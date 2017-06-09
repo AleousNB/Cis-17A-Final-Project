@@ -27,6 +27,6 @@ public:
 	int MonsterCount(std::string monsterType);
 	std::string GetCombinedBranchStats(int CreatureCount, int OrcCount, int UrukHaiCount, int WraithCount, int DragonCount);
 	virtual std::string Attack();
-	bool operator<(std::shared_ptr<Creature> otherMonster);
+    bool operator>(Creature otherMonster);
 
 };
